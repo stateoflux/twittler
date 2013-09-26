@@ -1,28 +1,27 @@
 $(document).ready(function(){
   var newTweetsCount = 0;
+  var currLength, prevLength;
   var $newTweetsCount = $('#new-tweets-count');
 
+
   var pollForTweets = function() {
-    var prevLength = 10;
-
     var compareLength = function() {
-      var currLength = streams.home.length;
-
       var updateNewTweetsCount = function(currLength, prevLength) {
          newTweetsCount = newTweetsCount + (currLength - prevLength);
          $newTweetsCount.text(String(newTweetsCount));
       };
 
+      currLength = streams.home.length;
       if (currLength > prevLength) {
         updateNewTweetsCount(currLength, prevLength);
         prevLength = currLength;
       }
     };
+    prevLength = streams.home.length;
     setInterval(compareLength, 500);
   };
 
   var clearNewTweetsCount = function() {
-    newTweetsCount = 0;
     $newTweetsCount.text('0');
   };
 
@@ -34,34 +33,20 @@ $(document).ready(function(){
     // $tweet.appendTo($body);
   };
 
-  var displayTweets = function(currLength, prevLength){
-    var delta;
-    if (prevLength === 0) {
-      delta = 0;
-    } else {
-      delta = prevLength - 1;
-    }
-    for (var i = currLength - 1; i >= delta ; i--) {
+  var displayTweets = function(startIdx, endIdx){
+    for (var i = startIdx; i <= endIdx; i++) {
       displayTweet(i);
     }
   };
 
-  /* var index = streams.home.length - 1;
-
-  for (var i = index; i > 0; i--) {
-    displayTweet(i);
-  } */
+  displayTweets(0, streams.home.length - 1);
+  pollForTweets();
 
   // Register click handler on new-tweets div
   $('.new-tweets').click(function() {
     clearNewTweetsCount();
-
-    // display new tweets
-
+    displayTweets(currLength - newTweetsCount, currLength - 1);
+    newTweetsCount = 0;
   });
-  // can i display the tweets currently in streams.home
-  // then poll for new tweets
-  displayTweets(streams.home.length, 0);
-  pollForTweets();
 
 });
