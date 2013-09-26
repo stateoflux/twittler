@@ -14,8 +14,6 @@ $(document).ready(function(){
       };
 
       if (currLength > prevLength) {
-        // trigger event
-        // $body.trigger('newTweets', [currLength, prevLength]);
         updateNewTweetsCount(currLength, prevLength);
         prevLength = currLength;
       }
@@ -26,7 +24,6 @@ $(document).ready(function(){
   var clearNewTweetsCount = function() {
     newTweetsCount = 0;
     $newTweetsCount.text('0');
-    // event.preventDefault();
   };
 
   var displayTweet = function(index) {
@@ -37,7 +34,7 @@ $(document).ready(function(){
     // $tweet.appendTo($body);
   };
 
-  /* var displayTweets = function(event, currLength, prevLength){
+  var displayTweets = function(currLength, prevLength){
     var delta;
     if (prevLength === 0) {
       delta = 0;
@@ -47,20 +44,24 @@ $(document).ready(function(){
     for (var i = currLength - 1; i >= delta ; i--) {
       displayTweet(i);
     }
-  }; */
+  };
 
-  var index = streams.home.length - 1;
+  /* var index = streams.home.length - 1;
 
   for (var i = index; i > 0; i--) {
     displayTweet(i);
-  }
+  } */
 
   // Register click handler on new-tweets div
   $('.new-tweets').click(function() {
     clearNewTweetsCount();
 
     // display new tweets
-  });
 
+  });
+  // can i display the tweets currently in streams.home
+  // then poll for new tweets
+  displayTweets(streams.home.length, 0);
   pollForTweets();
+
 });
