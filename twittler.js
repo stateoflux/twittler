@@ -3,7 +3,6 @@ $(document).ready(function(){
   var currLength, prevLength;
   var $newTweetsCount = $('#new-tweets-count');
 
-
   var pollForTweets = function() {
     var compareLength = function() {
       var updateNewTweetsCount = function(currLength, prevLength) {
@@ -30,7 +29,6 @@ $(document).ready(function(){
     var $tweet = $('<div></div>');
     $tweet.text('@' + tweet.user + ': ' + tweet.message + tweet.created_at);
     $('.time-line').prepend($tweet);
-    // $tweet.appendTo($body);
   };
 
   var displayTweets = function(startIdx, endIdx){
