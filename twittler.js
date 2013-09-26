@@ -1,26 +1,26 @@
 $(document).ready(function(){
   var $body = $('body');
-  // $body.html('');
+  var newTweetsCount = 0;
 
   var pollForTweets = function() {
     var prevLength = 10;
+
     var compareLength = function() {
       var currLength = streams.home.length;
 
+      var updateNewTweetsCount = function(currLength, prevLength) {
+         newTweetsCount = newTweetsCount + (currLength - prevLength);
+         $('#new-tweets-count').text(String(newTweetsCount));
+      };
+
       if (currLength > prevLength) {
         // trigger event
-        $body.trigger('newTweets', [currLength, prevLength]);
+        // $body.trigger('newTweets', [currLength, prevLength]);
+        updateNewTweetsCount(currLength, prevLength);
         prevLength = currLength;
       }
     };
     setInterval(compareLength, 2000);
-  };
-
-  var newTweetsCount = 0;
-
-  var updateNewTweetsCount = function(event, currLength, prevLength) {
-     newTweetsCount = newTweetsCount + (currLength - prevLength);
-     $('#new-tweets-count').text(String(newTweetsCount));
   };
 
   var clearNewTweetsCount = function() {
@@ -62,6 +62,6 @@ $(document).ready(function(){
   });
 
   pollForTweets();
-  $body.on('newTweets', updateNewTweetsCount);
+  // $body.on('newTweets', updateNewTweetsCount);
   // $body.on('newTweets', displayTweets);
 });
