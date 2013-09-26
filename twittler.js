@@ -15,14 +15,15 @@ $(document).ready(function(){
         prevLength = currLength;
       }
     };
-    setInterval(compareLength, 500);
+    setInterval(compareLength, 2000);
   };
 
   var displayTweet = function(index) {
     var tweet = streams.home[index];
     var $tweet = $('<div></div>');
-    $tweet.text('@' + tweet.user + ': ' + tweet.message);
-    $tweet.appendTo($body);
+    $tweet.text('@' + tweet.user + ': ' + tweet.message + tweet.created_at);
+    $body.prepend($tweet);
+    // $tweet.appendTo($body);
   };
 
   var displayTweets = function(event, currLength, prevLength){
@@ -32,7 +33,7 @@ $(document).ready(function(){
     } else {
       delta = prevLength - 1;
     }
-    for (var i = currLength - 1; i >= currLength - delta ; i--) {
+    for (var i = currLength - 1; i >= delta ; i--) {
       displayTweet(i);
     }
   };
