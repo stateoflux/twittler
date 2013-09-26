@@ -1,6 +1,6 @@
 $(document).ready(function(){
-  var $body = $('body');
   var newTweetsCount = 0;
+  var $newTweetsCount = $('#new-tweets-count');
 
   var pollForTweets = function() {
     var prevLength = 10;
@@ -10,7 +10,7 @@ $(document).ready(function(){
 
       var updateNewTweetsCount = function(currLength, prevLength) {
          newTweetsCount = newTweetsCount + (currLength - prevLength);
-         $('#new-tweets-count').text(String(newTweetsCount));
+         $newTweetsCount.text(String(newTweetsCount));
       };
 
       if (currLength > prevLength) {
@@ -20,11 +20,12 @@ $(document).ready(function(){
         prevLength = currLength;
       }
     };
-    setInterval(compareLength, 2000);
+    setInterval(compareLength, 500);
   };
 
   var clearNewTweetsCount = function() {
     newTweetsCount = 0;
+    $newTweetsCount.text('0');
     // event.preventDefault();
   };
 
@@ -55,13 +56,11 @@ $(document).ready(function(){
   }
 
   // Register click handler on new-tweets div
-  $('.new-tweets').click(function(event) {
+  $('.new-tweets').click(function() {
     clearNewTweetsCount();
 
     // display new tweets
   });
 
   pollForTweets();
-  // $body.on('newTweets', updateNewTweetsCount);
-  // $body.on('newTweets', displayTweets);
 });
