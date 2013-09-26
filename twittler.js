@@ -28,9 +28,6 @@ $(document).ready(function(){
     // event.preventDefault();
   };
 
-
-  
-
   var displayTweet = function(index) {
     var tweet = streams.home[index];
     var $tweet = $('<div></div>');
@@ -60,6 +57,7 @@ $(document).ready(function(){
   // Register click handler on new-tweets div
   $('.new-tweets').click(function(event) {
     clearNewTweetsCount();
+
     // display new tweets
   });
 
