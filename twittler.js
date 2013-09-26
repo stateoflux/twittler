@@ -19,13 +19,14 @@ $(document).ready(function(){
   var newTweetsCount = 0;
 
   var updateNewTweetsCount = function(event, currLength, prevLength) {
-     newTweetsCount = newTweetsCount + (currLength - prevLength); 
-     $('#new-tweets-count').text(String(newTweetsNum));
+     newTweetsCount = newTweetsCount + (currLength - prevLength);
+     $('#new-tweets-count').text(String(newTweetsCount));
   };
 
-  var clearNewTweetsCount = function(event) {
+  var clearNewTweetsCount = function() {
     newTweetsCount = 0;
-  }
+    // event.preventDefault();
+  };
 
 
   
@@ -50,15 +51,19 @@ $(document).ready(function(){
     }
   }; */
 
-  index = streams.home.length - 1;
+  var index = streams.home.length - 1;
 
   for (var i = index; i > 0; i--) {
     displayTweet(i);
   }
 
-
+  // Register click handler on new-tweets div
+  $('.new-tweets').click(function(event) {
+    clearNewTweetsCount();
+    // display new tweets
+  });
 
   pollForTweets();
-  $body.on('newTweets', updateNewTweetsNum);
+  $body.on('newTweets', updateNewTweetsCount);
   // $body.on('newTweets', displayTweets);
 });
