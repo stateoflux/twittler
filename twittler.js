@@ -27,8 +27,21 @@ $(document).ready(function(){
   var displayTweet = function(index) {
     var tweet = streams.home[index];
     var $tweet = $('<div></div>');
-    $tweet.text('@' + tweet.user + ': ' + tweet.message + tweet.created_at);
-    $('.time-line').prepend($tweet);
+    var $tweetContainer = $('<div></div>');
+    var $tweetHeader = $('<div></div>');
+    var $tweetBody = $('<div></div>');
+    // var $userImg = $('')
+
+    $tweetBody.text(tweet.message)
+      .addClass('media-body')
+      .appendTo($tweet);
+    $tweetHeader.text('@' + tweet.user)
+      .addClass('media-heading')
+      .prependTo($tweetBody);
+    $tweet.addClass('media')
+      .appendTo($tweetContainer);
+    $tweetContainer.addClass('list-group-item')
+      .prependTo($('.time-line'));
   };
 
   var displayTweets = function(startIdx, endIdx){
