@@ -26,10 +26,12 @@ $(document).ready(function(){
 
   var displayTweet = function(timeLine, index, parentNode) {
     var tweet = timeLine[index];
+    var fromNow = moment(tweet.created_at).fromNow();
     var $tweet = $('<div></div>');
     var $tweetContainer = $('<div></div>');
     var $tweetHeader = $('<h4><a href="#userModal" class="user">@'
-      + tweet.user + '</a><span class="t-s">' + tweet.created_at.toLocaleString()
+      + tweet.user + '</a><span class="t-s">' + fromNow 
+      // + tweet.user + '</a><span class="t-s">' + tweet.created_at.toLocaleString()
       + '</span></h4>');
     var $tweetBody = $('<div>' + tweet.message + '</div>');
     // var $userImg = $('')
