@@ -1,7 +1,10 @@
 $(document).ready(function(){
   var newTweetsCount = 0;
+  var timeLine = streams.home;
   var currLength, prevLength;
-  var $newTweetsCount = $('#new-tweets-count');
+  var $newTweets = $('.new-tweets');
+  var $newTweetsCount = $('.new-tweets-count');
+
 
   var pollForTweets = function() {
     var compareLength = function() {
@@ -10,33 +13,33 @@ $(document).ready(function(){
          $newTweetsCount.text(String(newTweetsCount));
       };
 
-      currLength = streams.home.length;
+      currLength = timeLine.length;
       if (currLength > prevLength) {
+        $newTweets.slideDown();
         updateNewTweetsCount(currLength, prevLength);
         prevLength = currLength;
       }
     };
-    prevLength = streams.home.length;
+    prevLength = timeLine.length;
     setInterval(compareLength, 500);
   };
 
   var clearNewTweetsCount = function() {
     $newTweetsCount.text('0');
+    $newTweets.slideUp();
   };
 
   var displayTweet = function(index) {
-    var tweet = streams.home[index];
+    var tweet = timeLine[index];
     var $tweet = $('<div></div>');
     var $tweetContainer = $('<div></div>');
-    var $tweetHeader = $('<div></div>');
-    var $tweetBody = $('<div></div>');
+    var $tweetHeader = $('<h4><a class="user">@' + tweet.user + '</a><span class="t-s">' + tweet.created_at.toLocaleString() + '</span></h4>');
+    var $tweetBody = $('<div>' + tweet.message + '</div>');
     // var $userImg = $('')
 
-    $tweetBody.text(tweet.message)
-      .addClass('media-body')
+    $tweetBody.addClass('media-body')
       .appendTo($tweet);
-    $tweetHeader.text('@' + tweet.user)
-      .addClass('media-heading')
+    $tweetHeader.addClass('media-heading')
       .prependTo($tweetBody);
     $tweet.addClass('media')
       .appendTo($tweetContainer);
@@ -50,7 +53,7 @@ $(document).ready(function(){
     }
   };
 
-  displayTweets(0, streams.home.length - 1);
+  displayTweets(0, timeLine.length - 1);
   pollForTweets();
 
   // Register click handler on new-tweets div
@@ -58,6 +61,12 @@ $(document).ready(function(){
     clearNewTweetsCount();
     displayTweets(currLength - newTweetsCount, currLength - 1);
     newTweetsCount = 0;
+  });
+
+  // now i need a click handler for the username link
+  $('.time-line').on('click', '.user', function() {
+    alert('word');
+    return false;
   });
 
 });
