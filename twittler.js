@@ -64,7 +64,8 @@ $(document).ready(function(){
   });
 
   $('.time-line').on('click', '.user', function() {
-    var userTl = streams.users[$(this).text().slice(1)];
+    var handle = $(this).text();
+    var userTl = streams.users[handle.slice(1)];
     var startIdx = 0;
     var $modal = $([
       '<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">',
@@ -72,11 +73,10 @@ $(document).ready(function(){
       '<div class="modal-content">',
       '<div class="modal-header">',
       '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>',
-      '<h4 class="modal-title">Modal title</h4>',
+      '<h4 class="modal-title">' + handle + '\'s Timeline</h4>',
       '</div>',
       '<div class="modal-body"><ul class="list-group md-time-line">',
       '</ul></div>',
-      '<div class="modal-footer"></div>',
       '</div>',
       '</div>',
       '</div>'
