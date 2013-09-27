@@ -64,6 +64,8 @@ $(document).ready(function(){
   });
 
   $('.time-line').on('click', '.user', function() {
+    var userTl = streams.users[$(this).text().slice(1)];
+    var startIdx = 0;
     var $modal = $([
       '<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">',
       '<div class="modal-dialog">',
@@ -79,10 +81,12 @@ $(document).ready(function(){
       '</div>',
       '</div>'
       ].join(''));
-    // var user = $(this).text().slice(1);
-    var userTl = streams.users[$(this).text().slice(1)];
 
-    displayTweets(userTl, userTl.length - 3, userTl.length - 1, $modal.find('.md-time-line'));
+    if (userTl.length > 20) {
+      startIdx = userTl.length - 20;
+    }
+
+    displayTweets(userTl, startIdx, userTl.length - 1, $modal.find('.md-time-line'));
     $modal.modal({
       show: true
     });
