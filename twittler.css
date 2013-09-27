@@ -1,0 +1,11 @@
+.hidden { display: none;}
+.t-s{
+  float: right;
+  font-size: 0.8em;
+  font-weight: normal;
+}
+.new-tweets {
+  color: blue;
+  background-color: rgba(254, 245, 202, 0.5);
+}
+.new-tweets:hover { background-color: rgba(254, 245, 202, 1); }
