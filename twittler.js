@@ -1,12 +1,12 @@
 $(document).ready(function(){
   var newTweetsCount = 0;
-  var timeLine = streams.home;
+  var homeTimeLine = streams.home;
   var currLength, prevLength;
   var $newTweets = $('.new-tweets');
   var $newTweetsCount = $('.new-tweets-count');
 
 
-  var pollForTweets = function() {
+  var pollForTweets = function(timeLine) {
     var compareLength = function() {
       var updateNewTweetsCount = function(currLength, prevLength) {
          newTweetsCount = newTweetsCount + (currLength - prevLength);
@@ -24,16 +24,13 @@ $(document).ready(function(){
     setInterval(compareLength, 500);
   };
 
-  var clearNewTweetsCount = function() {
-    $newTweetsCount.text('0');
-    $newTweets.slideUp();
-  };
-
-  var displayTweet = function(index) {
+  var displayTweet = function(timeLine, index, parentNode) {
     var tweet = timeLine[index];
     var $tweet = $('<div></div>');
     var $tweetContainer = $('<div></div>');
-    var $tweetHeader = $('<h4><a class="user">@' + tweet.user + '</a><span class="t-s">' + tweet.created_at.toLocaleString() + '</span></h4>');
+    var $tweetHeader = $('<h4><a href="#userModal" class="user">@'
+      + tweet.user + '</a><span class="t-s">' + tweet.created_at.toLocaleString()
+      + '</span></h4>');
     var $tweetBody = $('<div>' + tweet.message + '</div>');
     // var $userImg = $('')
 
@@ -44,29 +41,58 @@ $(document).ready(function(){
     $tweet.addClass('media')
       .appendTo($tweetContainer);
     $tweetContainer.addClass('list-group-item')
-      .prependTo($('.time-line'));
+      .prependTo($(parentNode));
   };
 
-  var displayTweets = function(startIdx, endIdx){
+  var displayTweets = function(timeLine, startIdx, endIdx, parentNode){
     for (var i = startIdx; i <= endIdx; i++) {
-      displayTweet(i);
+      displayTweet(timeLine, i, parentNode);
     }
   };
 
-  displayTweets(0, timeLine.length - 1);
-  pollForTweets();
+  var clearNewTweetsCount = function() {
+    $newTweetsCount.text('0');
+    $newTweets.slideUp();
+  };
 
   // Register click handler on new-tweets div
   $('.new-tweets').click(function() {
     clearNewTweetsCount();
-    displayTweets(currLength - newTweetsCount, currLength - 1);
+    displayTweets(homeTimeLine, currLength - newTweetsCount, currLength - 1, '.time-line');
     newTweetsCount = 0;
-  });
-
-  // now i need a click handler for the username link
-  $('.time-line').on('click', '.user', function() {
-    alert('word');
     return false;
   });
 
+  $('.time-line').on('click', '.user', function() {
+    var $modal = $([
+      '<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">',
+      '<div class="modal-dialog">',
+      '<div class="modal-content">',
+      '<div class="modal-header">',
+      '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>',
+      '<h4 class="modal-title">Modal title</h4>',
+      '</div>',
+      '<div class="modal-body"><ul class="list-group md-time-line">',
+      '</ul></div>',
+      '<div class="modal-footer"></div>',
+      '</div>',
+      '</div>',
+      '</div>'
+      ].join(''));
+    // var user = $(this).text().slice(1);
+    var userTl = streams.users[$(this).text().slice(1)];
+
+    displayTweets(userTl, userTl.length - 3, userTl.length - 1, $modal.find('.md-time-line'));
+    $modal.modal({
+      show: true
+    });
+
+    // change the timeLine reference
+    // might be easier to just create a modal.
+    // clear newTweetsCount
+    return false;
+  });
+
+  displayTweets(homeTimeLine, 0, homeTimeLine.length - 1, '.time-line');
+  pollForTweets(homeTimeLine);
 });

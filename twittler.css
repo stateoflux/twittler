@@ -8,4 +8,7 @@
   color: blue;
   background-color: rgba(254, 245, 202, 0.5);
 }
-.new-tweets:hover { background-color: rgba(254, 245, 202, 1); }
+.new-tweets:hover { 
+  background-color: rgba(254, 245, 202, 1); 
+  cursor: pointer;
+}
