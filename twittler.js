@@ -26,10 +26,18 @@ $(document).ready(function(){
   var displayTweet = function(timeLine, index, parentNode) {
     var tweet = timeLine[index];
     var fromNow = moment(tweet.created_at).fromNow();
-    
+    var avatars = {
+      shawndrost: 'img/alien.jpg',
+      sharksforcheap: 'img/boba_fet.jpg',
+      mracus: 'img/sendak.jpg',
+      douglascalhoun: 'img/hell_boy.jpg'
+    };
+    console.log(avatars[tweet.user]);
     $([
         '<div class="list-group-item">',
-        '<div class="media>"',
+        '<div class="media">',
+        '<a class="pull-left">',
+        '<img class="media-object" src="' + avatars[tweet.user] + '"></a>',
         '<div class="media-body">',
         '<h4 class="media-heading"><a href="#userModal" class="user">@',
         '' + tweet.user + '</a><span class="t-s">' + fromNow,
