@@ -5,7 +5,6 @@ $(document).ready(function(){
   var $newTweets = $('.new-tweets');
   var $newTweetsCount = $('.new-tweets-count');
 
-
   var pollForTweets = function(timeLine) {
     var compareLength = function() {
       var updateNewTweetsCount = function(currLength, prevLength) {
@@ -27,23 +26,19 @@ $(document).ready(function(){
   var displayTweet = function(timeLine, index, parentNode) {
     var tweet = timeLine[index];
     var fromNow = moment(tweet.created_at).fromNow();
-    var $tweet = $('<div></div>');
-    var $tweetContainer = $('<div></div>');
-    var $tweetHeader = $('<h4><a href="#userModal" class="user">@'
-      + tweet.user + '</a><span class="t-s">' + fromNow 
-      // + tweet.user + '</a><span class="t-s">' + tweet.created_at.toLocaleString()
-      + '</span></h4>');
-    var $tweetBody = $('<div>' + tweet.message + '</div>');
-    // var $userImg = $('')
-
-    $tweetBody.addClass('media-body')
-      .appendTo($tweet);
-    $tweetHeader.addClass('media-heading')
-      .prependTo($tweetBody);
-    $tweet.addClass('media')
-      .appendTo($tweetContainer);
-    $tweetContainer.addClass('list-group-item')
-      .prependTo($(parentNode));
+    
+    $([
+        '<div class="list-group-item">',
+        '<div class="media>"',
+        '<div class="media-body">',
+        '<h4 class="media-heading"><a href="#userModal" class="user">@',
+        '' + tweet.user + '</a><span class="t-s">' + fromNow,
+        '</span></h4>',
+        '' + tweet.message + '</div>',
+        '</div>',
+        '</div>'
+      ].join(''))
+        .prependTo($(parentNode));
   };
 
   var displayTweets = function(timeLine, startIdx, endIdx, parentNode){
@@ -92,10 +87,6 @@ $(document).ready(function(){
     $modal.modal({
       show: true
     });
-
-    // change the timeLine reference
-    // might be easier to just create a modal.
-    // clear newTweetsCount
     return false;
   });
 
