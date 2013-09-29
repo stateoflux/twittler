@@ -1,6 +1,6 @@
 body { padding-top: 70px; }
 body, .modal-body {
-  background-color: hsla(95, 55%, 80%, 0.2);
+  background-color: hsla(211, 46%, 89%, 0.6);
 }
 .hidden { display: none; }
 .t-s{
@@ -11,6 +11,9 @@ body, .modal-body {
 .new-tweets {
   color: hsla(208, 56%, 53%, 1);
   background-color: hsla(50, 96%, 89%, 0.5);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
 }
 .new-tweets:hover { 
   background-color: hsla(50, 96%, 89%, 1); 
@@ -19,5 +22,9 @@ body, .modal-body {
 /* over-riding boot strap's panel-title styles */
 .panel-title {
   font-size: 1.7em;
+  font-weight: bold;
+}
+.panel-title-twt-box {
+  font-size: 1.429em;
   font-weight: bold;
 }
