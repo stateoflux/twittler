@@ -6,6 +6,7 @@ $(document).ready(function(){
   var $newTweetsCount = $('.new-tweets-count');
 
   var pollForTweets = function(timeLine) {
+    $newTweets.hide();     // Hide the new tweets div until new ones arrive
     var compareLength = function() {
       var updateNewTweetsCount = function(currLength, prevLength) {
          newTweetsCount = newTweetsCount + (currLength - prevLength);
@@ -106,7 +107,7 @@ $(document).ready(function(){
     $tweetInput.val('');
     return false;
   });
-
+  
   displayTweets(homeTimeLine, 0, homeTimeLine.length - 1, '.time-line');
   pollForTweets(homeTimeLine);
 });
