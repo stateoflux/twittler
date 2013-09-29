@@ -1,7 +1,8 @@
-.hidden { display: none;}
+body { padding-top: 70px; }
 body, .modal-body {
   background-color: hsla(95, 55%, 80%, 0.2);
 }
+.hidden { display: none; }
 .t-s{
   float: right;
   font-size: 0.8em;

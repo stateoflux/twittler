@@ -30,9 +30,9 @@ $(document).ready(function(){
       shawndrost: 'img/alien.jpg',
       sharksforcheap: 'img/boba_fet.jpg',
       mracus: 'img/sendak.jpg',
-      douglascalhoun: 'img/hell_boy.jpg'
+      douglascalhoun: 'img/hell_boy.jpg',
+      stateoflux: 'img/spiderman.jpg'
     };
-    console.log(avatars[tweet.user]);
     $([
         '<div class="list-group-item">',
         '<div class="media">',
@@ -95,6 +95,15 @@ $(document).ready(function(){
     $modal.modal({
       show: true
     });
+    return false;
+  });
+
+  // Click handler for tweet input submit button
+  $('button[type="submit"]').click(function() {
+    var $tweetInput = $(this).prev().children('.tweet-input');
+
+    writeTweet($tweetInput.val());
+    $tweetInput.val('');
     return false;
   });
 
