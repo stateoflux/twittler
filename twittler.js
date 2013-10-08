@@ -32,13 +32,19 @@ $(document).ready(function(){
       sharksforcheap: 'img/boba_fet.jpg',
       mracus: 'img/sendak.jpg',
       douglascalhoun: 'img/hell_boy.jpg',
-      stateoflux: 'img/spiderman.jpg'
+      visitor: 'img/spiderman.jpg'
     };
+    var avatar = avatars.visitor;
+
+    if (avatars.hasOwnProperty(tweet.user)) {
+      avatar = avatars[tweet.user];
+    }
+
     $([
         '<div class="list-group-item">',
         '<div class="media">',
         '<a class="pull-left">',
-        '<img class="media-object" src="' + avatars[tweet.user] + '"></a>',
+        '<img class="media-object" src="' + avatar + '"></a>',
         '<div class="media-body">',
         '<h4 class="media-heading"><a href="#userModal" class="user">@',
         '' + tweet.user + '</a><span class="t-s">' + fromNow,
@@ -61,7 +67,9 @@ $(document).ready(function(){
     $newTweets.slideUp();
   };
 
-  // Register click handler on new-tweets div
+  /* Event Handlers
+   * ======================================================================== */
+
   $('.new-tweets').click(function() {
     clearNewTweetsCount();
     displayTweets(homeTimeLine, currLength - newTweetsCount, currLength - 1, '.time-line');
@@ -73,6 +81,7 @@ $(document).ready(function(){
     var handle = $(this).text();
     var userTl = streams.users[handle.slice(1)];
     var startIdx = 0;
+
     var $modal = $([
       '<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">',
       '<div class="modal-dialog">',
@@ -93,20 +102,37 @@ $(document).ready(function(){
     }
 
     displayTweets(userTl, startIdx, userTl.length - 1, $modal.find('.md-time-line'));
-    $modal.modal({
-      show: true
-    });
+    $modal.modal({ show: true });
     return false;
   });
 
-  // Click handler for tweet input submit button
-  $('button[type="submit"]').click(function() {
+  $('.tweet-form').hide();
+  $('.login-form button[type="submit"]').click(function() {
+    var $username = $(this).prev().children('#username');
+    var $form = $(this).parent();
+    var username = $username.val();
+
+    if (username) {
+      window.visitor = username;
+      $username.val('');
+      $form.slideUp();
+      $form.parent().prev().children('h3').text('@' + username);
+      $form.next().slideDown();
+    }
+    return false;
+  });
+
+  $('.tweet-form button[type="submit"]').click(function() {
     var $tweetInput = $(this).prev().children('.tweet-input');
 
     writeTweet($tweetInput.val());
     $tweetInput.val('');
+    setTimeout(function() {
+      $('.new-tweets').trigger('click');
+    }, 500);
     return false;
   });
+
   
   displayTweets(homeTimeLine, 0, homeTimeLine.length - 1, '.time-line');
   pollForTweets(homeTimeLine);

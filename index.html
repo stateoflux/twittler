@@ -3,8 +3,7 @@
   <head>
     <title>Bootstrap 101 Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"> 
     <link href="twittler.css" rel="stylesheet" media="screen">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -33,10 +32,17 @@
         <div class="col-md-5">
          <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title panel-title-twt-box">Wayne Montague</h3> 
+            <h3 class="panel-title panel-title-twt-box">Wanna join the party? Just login.</h3> 
           </div>
           <div class="panel-body">
-            <form role="form">
+            <form class="login-form" role="form>">
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" placeholder="Username..."></input>
+              </div>
+              <button type="submit" class="btn btn-primary pull-right">Login</button>
+            </form>
+            <form class="tweet-form" role="form">
               <div class="form-group">
                 <textarea class="tweet-input form-control" placeholder="Compose a new Tweet..."></textarea>
               </div>
