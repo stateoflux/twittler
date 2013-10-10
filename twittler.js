@@ -1,11 +1,11 @@
 $(document).ready(function(){
   var newTweetsCount = 0;
-  var homeTimeLine = streams.home;
+  var homeStream = streams.home;
   var currLength, prevLength;
   var $newTweets = $('.new-tweets');
   var $newTweetsCount = $('.new-tweets-count');
 
-  var pollForTweets = function(timeLine) {
+  var pollForTweets = function(stream) {
     $newTweets.hide();     // Hide the new tweets div until new ones arrive
     var compareLength = function() {
       var updateNewTweetsCount = function(currLength, prevLength) {
@@ -13,19 +13,19 @@ $(document).ready(function(){
          $newTweetsCount.text(String(newTweetsCount));
       };
 
-      currLength = timeLine.length;
+      currLength = stream.length;
       if (currLength > prevLength) {
         $newTweets.slideDown();
         updateNewTweetsCount(currLength, prevLength);
         prevLength = currLength;
       }
     };
-    prevLength = timeLine.length;
+    prevLength = stream.length;
     setInterval(compareLength, 500);
   };
 
-  var displayTweet = function(timeLine, index, parentNode) {
-    var tweet = timeLine[index];
+  var displayTweet = function(stream, index, parentNode) {
+    var tweet = stream[index];
     var fromNow = moment(tweet.created_at).fromNow();
     var avatars = {
       shawndrost: 'img/alien.jpg',
@@ -56,9 +56,9 @@ $(document).ready(function(){
         .prependTo($(parentNode));
   };
 
-  var displayTweets = function(timeLine, startIdx, endIdx, parentNode){
+  var displayTweets = function(stream, startIdx, endIdx, parentNode){
     for (var i = startIdx; i <= endIdx; i++) {
-      displayTweet(timeLine, i, parentNode);
+      displayTweet(stream, i, parentNode);
     }
   };
 
@@ -67,16 +67,18 @@ $(document).ready(function(){
     $newTweets.slideUp();
   };
 
-  /* Event Handlers
+  /* Updates the timeline with the latest tweets when this div is clicked
    * ======================================================================== */
-
-  $('.new-tweets').click(function() {
+  $newTweets.click(function() {
     clearNewTweetsCount();
-    displayTweets(homeTimeLine, currLength - newTweetsCount, currLength - 1, '.time-line');
+    displayTweets(homeStream, currLength - newTweetsCount, currLength - 1, '.time-line');
     newTweetsCount = 0;
     return false;
   });
-
+  
+  /* A modal is used to display the timeline of a different user.  Activated
+   * when the username is clicked
+   * ======================================================================== */
   $('.time-line').on('click', '.user', function() {
     var handle = $(this).text();
     var userTl = streams.users[handle.slice(1)];
@@ -106,6 +108,8 @@ $(document).ready(function(){
     return false;
   });
 
+  /* User Login & Tweet Input UI
+   * ======================================================================== */
   $('.tweet-form').hide();
   $('.login-form button[type="submit"]').click(function() {
     var $username = $(this).prev().children('#username');
@@ -127,13 +131,16 @@ $(document).ready(function(){
 
     writeTweet($tweetInput.val());
     $tweetInput.val('');
+    // Delay the tirggering of the click event that updates the timeline to allow my polling function
+    // to capture the newly created tweet.
     setTimeout(function() {
-      $('.new-tweets').trigger('click');
+      $newTweets.trigger('click');
     }, 500);
     return false;
   });
 
-  
-  displayTweets(homeTimeLine, 0, homeTimeLine.length - 1, '.time-line');
-  pollForTweets(homeTimeLine);
+ /* MAIN
+  * ======================================================================== */ 
+  displayTweets(homeStream, 0, homeStream.length - 1, '.time-line');
+  pollForTweets(homeStream);
 });
