@@ -5,6 +5,9 @@ $(document).ready(function(){
   var $newTweets = $('.new-tweets');
   var $newTweetsCount = $('.new-tweets-count');
 
+
+  /* Polls stream every 500 ms to see if there are any new tweets 
+   * ======================================================================== */
   var pollForTweets = function(stream) {
     $newTweets.hide();     // Hide the new tweets div until new ones arrive
     var compareLength = function() {
@@ -24,6 +27,8 @@ $(document).ready(function(){
     setInterval(compareLength, 500);
   };
 
+  /* Timeline UI 
+   * ======================================================================== */
   var displayTweet = function(stream, index, parentNode) {
     var tweet = stream[index];
     var fromNow = moment(tweet.created_at).fromNow();
@@ -67,8 +72,6 @@ $(document).ready(function(){
     $newTweets.slideUp();
   };
 
-  /* Updates the timeline with the latest tweets when this div is clicked
-   * ======================================================================== */
   $newTweets.click(function() {
     clearNewTweetsCount();
     displayTweets(homeStream, currLength - newTweetsCount, currLength - 1, '.time-line');
@@ -140,7 +143,7 @@ $(document).ready(function(){
   });
 
  /* MAIN
-  * ======================================================================== */ 
+  * ======================================================================== */
   displayTweets(homeStream, 0, homeStream.length - 1, '.time-line');
   pollForTweets(homeStream);
 });
